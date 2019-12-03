@@ -108,3 +108,5 @@ Future<Map<String, double>> _getLocation() async {
   }
   return currentLocation;
 }
+
+// end of the line
