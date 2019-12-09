@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
+//import 'package:resq/new.dart';
+
 
 
 class HomePage extends StatefulWidget {
@@ -8,6 +10,15 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+//    super.initState();
+    _getLocation().then((value) {
+      setState(() {
+        userLocation = value;
+      });
+    });
+  }
 
   var location = new Location();
   Map<String, double> userLocation;
@@ -27,23 +38,28 @@ class _HomePageState extends State<HomePage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
+                Text(
+                  "Current Location :",
+                  style: TextStyle(
+                      letterSpacing: 2.0,
+                      fontSize: 15.0
+                  ),
+                ),
+                SizedBox(height: 15.0,),
                 userLocation == null
-                    ? Text("Latitude: "+
-                    userLocation["latitude"].toString() +"   Longitude: " +
-                    userLocation["longitude"].toString())
-                    : CircularProgressIndicator(),
-                
+                    ? CircularProgressIndicator()
+                    : Text("Latitude: " +
+                    userLocation["latitude"].toString() +
+                    "   Longitude: " +
+                    userLocation["longitude"].toString()),
+                Divider(height: 40.0,),
                 Text('Tap the button to send your location:',
                   style: TextStyle( color: Colors.grey),
                 ),
                 SizedBox(height: 20.0,),
                 RawMaterialButton(
                   onPressed: () {
-                    _getLocation().then((value) {
-                      setState(() {
-                        userLocation = value;
-                      });
-                    });
+
                   },
                   child: new Icon(
                     Icons.warning,
@@ -57,7 +73,9 @@ class _HomePageState extends State<HomePage> {
                 ),
                 SizedBox(height: 40.0,),
                 RaisedButton(
-                  onPressed: (){},
+                  onPressed: (){
+                    Navigator.pushNamed(context, '/getcontacts');
+                  },
                   shape: StadiumBorder(),
                   child: Text('Add your contacts'),
                 ),
@@ -68,34 +86,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-
-class AddingContacts extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Theme.of(context).canvasColor,
-      body: Center(
-        child: Column(
-          children: <Widget>[
-            Text('This is the end of the line!!'),
-            IconButton(
-              icon: Icon(Icons.close),
-              onPressed: (){
-                Navigator.pop(context);
-              },
-            ),
-            MaterialButton(onPressed: (){
-              Navigator.popUntil(context, ModalRoute.withName(Navigator.defaultRouteName));
-            },
-              child: Text("Go back to home"),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-}
-
 
 Future<Map<String, double>> _getLocation() async {
   var currentLocation = <String, double>{};
