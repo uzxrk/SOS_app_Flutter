@@ -28,12 +28,11 @@ class _HomePageState extends State<HomePage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 userLocation == null
-                    ? CircularProgressIndicator()
-                    : Text("Location:" +
-                    userLocation["latitude"].toString() +
-                    " " +
-                    userLocation["longitude"].toString()),
-
+                    ? Text("Latitude: "+
+                    userLocation["latitude"].toString() +"   Longitude: " +
+                    userLocation["longitude"].toString())
+                    : CircularProgressIndicator(),
+                
                 Text('Tap the button to send your location:',
                   style: TextStyle( color: Colors.grey),
                 ),
